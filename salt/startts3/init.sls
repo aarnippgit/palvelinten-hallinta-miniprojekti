@@ -36,3 +36,28 @@ ufw_open_ts3_ports: #Avaa tarvittavat portit ts3 serverille
         ufw allow 10011/tcp
         ufw allow 41144/tcp
     - unless: ufw status | grep "9987/udp"
+
+wait_for_ts3_service:
+  cmd.run:
+    - name: sleep 6
+    - require:
+      - service: ts3_service_running
+
+extract_ts3_credentials_journal:
+  cmd.run:
+    - name: |
+        echo "==== TeamSpeak Credentials ====" > /root/ts3_credentials.txt
+        echo "" >> /root/ts3_credentials.txt
+
+        echo "ServerAdmin Password:" >> /root/ts3_credentials.txt
+        journalctl -u ts3server -n 200 | grep -oP '(?<=password=)[A-Za-z0-9]+' >> /root/ts3_credentials.txt
+
+        echo "" >> /root/ts3_credentials.txt
+        echo "Privilege Token:" >> /root/ts3_credentials.txt
+        journalctl -u ts3server -n 200 | grep -oP '(?<=token=)[A-Za-z0-9+/=]+' >> /root/ts3_credentials.txt
+
+        echo "" >> /root/ts3_credentials.txt
+        echo "Saved to: /root/ts3_credentials.txt"
+    - require:
+      - cmd: wait_for_ts3_service
+    - unless: test -f /root/ts3_credentials.txt
