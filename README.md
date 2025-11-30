@@ -1,4 +1,4 @@
-# TeamSpeak 3 palvelinasennus Linuxille Saktin avulla:
+# TeamSpeak 3 palvelinasennus Linuxille Saltin avulla:
 ## Aarni Pemberton ja Miro Johansson  
 
 Masterilla:
