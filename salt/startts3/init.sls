@@ -1,3 +1,6 @@
+include:
+  - ts3
+
 ts3_service_file: #Luo systemd servicen ts3:lle
   file.managed:
     - name: /lib/systemd/system/ts3server.service
@@ -20,6 +23,9 @@ ts3_service_file: #Luo systemd servicen ts3:lle
 
         [Install]
         WantedBy=multi-user.target
+    - require:
+      - sls: ts3
+
 
 ts3_service_running: #Käynnistää ts3 serverin
   service.running:
@@ -53,5 +59,6 @@ save_ts3_credentials:
 
         echo "" >> /root/ts3_credentials.txt
         echo "Saved to /root/ts3_credentials.txt" >> /root/ts3_credentials.txt
+    - creates: /root/ts3_credentials.txt
     - require:
       - service: ts3_service_running
