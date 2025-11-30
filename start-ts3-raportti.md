@@ -1,1 +1,1 @@
-lol
+Loin Linuxssa projektin githubiin kansion startts3. Kansioon loin init.sls tiedoston, joka ajettaessa luo TeamSpeak serverille system servicen, käynnistää serverin ja avaa tarvittavat ufw portit. Testin jälkeen pushasin muutokset githubiin. 
